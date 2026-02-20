@@ -1,12 +1,12 @@
 """
-	baryinterp(u, x)
-	baryinterp(u, x, w)
+	baryinterp(x, u)
+	baryinterp(x, u, w)
 Create a polynomial interpolant by the barycentric formula for the function values in
 vector `u` at the node locations in vector `x`. If given, `w` is a vector of the
 barycentric weights; otherwise it is computed from the nodes. The return value is
 a callable function of the interpolation variable.
 """
-function baryinterp(u, x, w)
+function baryinterp(x, u, w)
     n = length(u)
     t = zeros(n)
     return function(s)
@@ -22,10 +22,10 @@ function baryinterp(u, x, w)
     end
 end
 
-function baryinterp(u, x)
+function baryinterp(x, u)
     n = length(u)
     w = [1 / prod(2(x[j] - x[k]) for k in 1:n if k !== j) for j in 1:n]
-    baryinterp(u, x, w)
+    baryinterp(x, u, w)
 end
 
 """
@@ -36,7 +36,7 @@ function chebinterp(u)
     n = length(u) - 1
     wc = [0.5; (-1).^(1:n-1); 0.5 * (-1)^n]
     xc = [cospi(k / n) for k in 0:n]
-    baryinterp(u, xc, wc)
+    baryinterp(xc, u, wc)
 end
 
 """

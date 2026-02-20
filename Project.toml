@@ -1,0 +1,10 @@
+name = "SpectralMethodsTrefethen"
+uuid = "eb1d6e60-c460-4994-bdf1-f4372e34db63"
+authors = ["Toby Driscoll <driscoll@udel.edu>"]
+version = "0.1.0"
+
+[deps]
+FFTW = "7a1cc6ca-52ef-59f5-83cd-3a7055c09341"
+
+[compat]
+FFTW = "1"

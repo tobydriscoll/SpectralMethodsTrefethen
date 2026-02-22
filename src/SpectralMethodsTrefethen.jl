@@ -1,6 +1,6 @@
 module SpectralMethodsTrefethen
 
-using FFTW
+using LinearAlgebra, FFTW
 
 # Analogs for named functions in the book.
 export cheb, chebfft, clencurt, gauss

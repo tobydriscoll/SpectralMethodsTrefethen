@@ -3,7 +3,7 @@
 Chebyshev differentiation matrix and grid.
 """
 function cheb(N)
-    N == 0 && return zeros(1, 1), [1]
+    (N == 0) && return zeros(1, 1), [1.0]
     x = [cospi(k / N) for k in 0:N]
     c = [2; ones(N-1); 2]
     @. c[2:2:end] = -c[2:2:end]

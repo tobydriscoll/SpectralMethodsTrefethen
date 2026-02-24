@@ -1,4 +1,4 @@
 function interp2dgrid(V, method1, method2, x, y)
-    W = reduce(hcat, [method1(v).(x) for v in eachcol(V)])
-    return reduce(vcat, [method2(w).(y') for w in eachrow(W)])
+    W = mapslices(v -> method1(v).(x), V; dims=[1])
+    return mapslices(w -> method2(w).(y), W; dims=[2])
 end

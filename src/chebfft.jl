@@ -16,8 +16,8 @@ function chebfft(v)
         s = @. -sqrt(1 - x[2:N]^2)    # chain rule denominator
         w[2:N] = DST(-ξ .* v̂[2:N]) ./ (2N * s)
     end
-    w[1] = N/2 * v̂[N+1] + sum(i^2 * v̂[i+1] for i in 0:N-1) / N
+    w[1] = N/2 * v̂[N+1] + sum(n^2 * v̂[n+1] for n in 0:N-1) / N
     w[N+1] = (-1)^(N+1) * N/2 * v̂[N+1] +
-        sum((-1)^(i+1) * i^2 * v̂[i+1] for i in 0:N-1) / N
+        sum((-1)^(n+1) * n^2 * v̂[n+1] for n in 0:N-1) / N
     return w
 end

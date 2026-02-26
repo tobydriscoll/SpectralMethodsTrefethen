@@ -46,5 +46,3 @@ function p27anim(N=256, tmax=0.006)
     end
     return anim
 end
-
-p27anim()

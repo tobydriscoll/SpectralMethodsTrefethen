@@ -35,5 +35,3 @@ function p34anim(N=20, ϵ=0.01, tmax=1/ϵ)
     end
     return anim
 end
-
-p34anim(32)

@@ -38,5 +38,3 @@ function p29(N = 31, M = 40)
     return contourf(X, Y, U; levels=20, colormap=:viridis,
         axis=(; xlabel=L"x", ylabel=L"y", aspect=1))
 end
-
-p29(51, 80)

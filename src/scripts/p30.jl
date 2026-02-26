@@ -40,5 +40,3 @@ function chebweights(N)
     w = inv(D[i, i])[1, :]
     return x, w
 end
-
-p30()

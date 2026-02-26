@@ -34,5 +34,3 @@ function p34(N = 20, ϵ = 0.01, tmax = 1 / ϵ)
         colormap=:redsblues, colorrange=(-1, 1))
     return fig
 end
-
-p34()

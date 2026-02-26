@@ -82,5 +82,3 @@ function p28(N = 25, M = 20; version=:a, interpolate=false)
     end
     return fig
 end
-
-p28()

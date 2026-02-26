@@ -15,5 +15,3 @@ function p31(N = 70, c = -11, r = 16)
     Colorbar(fig[1, 2], plt)
     return fig
 end
-
-p31()

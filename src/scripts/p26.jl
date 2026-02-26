@@ -1,7 +1,7 @@
 using CairoMakie, LaTeXStrings
 using LinearAlgebra, SpectralMethodsTrefethen
 "p26 - eigenvalues of 2nd-order Chebyshev diff. matrix"
-function p26(N = 60)
+function p26(N=60)
     D, x = cheb(N)
     D² = (D^2)[2:N, 2:N]
     λ, V = eigen(-D²)
@@ -31,5 +31,3 @@ function p26(N = 60)
     rowsize!(fig.layout, 1, Relative(0.5))
     return fig
 end
-
-p26()

@@ -14,5 +14,3 @@ function p32(N = 16)
     ax.title = @sprintf("max err = %0.4e", maxerr)
     return fig
 end
-
-p32()

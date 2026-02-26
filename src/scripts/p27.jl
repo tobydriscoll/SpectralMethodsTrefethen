@@ -43,5 +43,3 @@ function p27(N = 256, tmax = 0.006)
     return heatmap(x, tdata, udata; interpolate=true,
         axis=(xlabel=L"x", ylabel=L"t"))
 end
-
-p27()

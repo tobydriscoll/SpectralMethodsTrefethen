@@ -17,17 +17,20 @@ function p26(N=60)
     text!(ax1, 1.9N / π, 24; text=L"2\pi / N", align=(:right, :baseline))
 
     # Plot eigenmodes N/4 (physical) and N (nonphysical):
-    vN4 = [0; V[:, Int(N / 4 - 1)]; 0]
+    vN4 = [0; V[:, div(N, 4) - 1]; 0]
     uN4 = chebinterp(vN4)
     ax2 = Axis(fig[2, 1]; xlabel=L"x", ylabel=L"u(x)", title=latexstring("eigenmode \$N/4\$"))
     scatter!(ax2, x, vN4)
     lines!(ax2, -1..1, uN4)
 
     vN = V[:, N-1];
-    ax3 = Axis(fig[3, 1]; xlabel=L"x", yscale=log10, ylabel=L"|v_n|",
-        title=latexstring("absolute value of eigenmode \$N\$ (log scale)"))
-    scatter!(ax3, x[2:N], abs.(vN))
+    yticks = ([-1, -1e-2, -1e-4, 1e-4, 1e-2, 1],
+            ["–1", "–10⁻²", "–10⁻⁴", "10⁻⁴", "10⁻²", "1"])
+    ax3 = Axis(fig[3, 1]; xlabel=L"x", limits=(-1.05, 1.05, -1.25, 1.25),
+        yscale=Makie.AsinhScale(1e-5), yticks, ylabel=L"v_n",
+        title=latexstring("eigenmode \$N\$ (asinh scale)"))
+    scatterlines!(ax3, x[2:N], vN; linestyle=:dot)
 
-    rowsize!(fig.layout, 1, Relative(0.5))
+    rowsize!(fig.layout, 1, Relative(0.4))
     return fig
 end

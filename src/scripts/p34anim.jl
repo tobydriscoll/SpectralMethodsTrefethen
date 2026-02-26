@@ -11,11 +11,11 @@ function p34anim(N=20, ϵ=0.01, tmax=1/ϵ)
     v = @. 0.53x + 0.47sinpi(-1.5x)
 
     # Solve PDE by Euler formula and plot results:
-    dt = min(0.01, 20 / (N^4 * ϵ))
+    Δt = min(0.01, 20 / (N^4 * ϵ))
     tplot = 0.2
-    plotgap = ceil(Int, tplot / dt)
-    dt = tplot / plotgap
-    ntime = round(Int, tmax / dt)
+    plotgap = ceil(Int, tplot / Δt)
+    Δt = tplot / plotgap
+    ntime = round(Int, tmax / Δt)
 
     time = Observable(0.0)
     v = Observable(v)
@@ -27,9 +27,9 @@ function p34anim(N=20, ϵ=0.01, tmax=1/ϵ)
         recordframe!(io)
         for n in 1:ntime
             vnew = v[]
-            vnew += dt * (ϵ * D² * (vnew - x) + vnew - vnew .^ 3)    # Euler
+            vnew += Δt * (ϵ * D² * (vnew - x) + vnew - vnew .^ 3)    # Euler
             v[] = vnew
-            time[] = n * dt
+            time[] = n * Δt
             iszero(mod(n, plotgap)) &&recordframe!(io)
         end
     end

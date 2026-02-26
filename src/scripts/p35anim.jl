@@ -10,11 +10,11 @@ function p35anim(N=20, ϵ=0.01, tmax=1/2ϵ)
     v = @. 0.53 * x + 0.47 * sin(-1.5π * x)
 
     # Solve PDE by Euler formula and plot results:
-    dt = min(0.01, 50 / (N^4 * ϵ))
+    Δt = min(0.01, 50 / (N^4 * ϵ))
     tplot = 0.2
-    plotgap = ceil(Int, tplot / dt)
-    dt = tplot / plotgap
-    ntime = round(Int, tmax / dt)
+    plotgap = ceil(Int, tplot / Δt)
+    Δt = tplot / plotgap
+    ntime = round(Int, tmax / Δt)
 
     time = Observable(0.0)
     v = Observable(v)
@@ -26,10 +26,10 @@ function p35anim(N=20, ϵ=0.01, tmax=1/2ϵ)
         recordframe!(io)
         for n in 1:ntime
             vnew = v[]
-            vnew += dt * (ϵ * D² * (vnew - x) + vnew - vnew .^ 3)    # Euler
+            vnew += Δt * (ϵ * D² * (vnew - x) + vnew - vnew .^ 3)    # Euler
             vnew[1], vnew[end] = 1 + sin((n-1) * tplot / 5)^2, -1    # BC
             v[] = vnew
-            time[] = n * dt
+            time[] = n * Δt
             iszero(mod(n, plotgap)) && recordframe!(io)
         end
     end

@@ -19,13 +19,13 @@ function p37(Nx = 50, Ny = 15)
 
     # Initial data:
     V = [exp(-8 * ((x + 1.5)^2 + y^2)) for x in x.(θ), y in y]
-    dt = 1 / (Nx + Ny^2)
-    Vold = [exp(-8 * ((x + dt + 1.5)^2 + y^2)) for x in x.(θ), y in y]
+    Δt = 1 / (Nx + Ny^2)
+    Vold = [exp(-8 * ((x + Δt + 1.5)^2 + y^2)) for x in x.(θ), y in y]
 
     # Time-stepping by leap frog formula:
     tmax = 4
-    ntime = ceil(Int, tmax / dt)
-    dt = tmax / ntime
+    ntime = ceil(Int, tmax / Δt)
+    Δt = tmax / ntime
     time = Observable(0.0)
     V = Observable(V)
     θθ = range(0, 2π, 111)
@@ -38,9 +38,9 @@ function p37(Nx = 50, Ny = 15)
     anim = record(fig, "p37anim.mp4"; framerate=60) do io
         recordframe!(io)
         for i in 1:ntime
-            Vnew = 2V[] - Vold + dt^2 * (D²x * V[] + V[] * D²y')
+            Vnew = 2V[] - Vold + Δt^2 * (D²x * V[] + V[] * D²y')
             Vnew[:, [1, Ny+1]] .= Vnew[:, 2:Ny] * BC'       # Neumann BCs for |y|=1
-            time[] = i * dt
+            time[] = i * Δt
             Vold, V[] = V[], Vnew
             recordframe!(io)
         end

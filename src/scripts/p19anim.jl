@@ -1,9 +1,8 @@
 using CairoMakie, Printf, LaTeXStrings
 using FFTW, SpectralMethodsTrefethen
 "p19anim - 2nd-order wave eq. on Chebyshev grid (compare p6)"
-function p19anim(N=80, tmax=4)
+function p19anim(N=80, tmax=4, Δt=8/N^2)
     _, x = cheb(N)
-    Δt = 8 / N^2
 
     tplot = 0.005
     plotgap = round(Int, tplot / Δt)
@@ -16,7 +15,7 @@ function p19anim(N=80, tmax=4)
     v = Observable(@. exp(-200x^2))
     vold = @. exp(-200 * (x - Δt)^2)
     fig = lines(x, v; axis=(; xlabel=L"x", title, limits=(-1, 1, -1, 1)))
-    anim = record(fig, "p19anim.mp4"; framerate=60) do io
+    anim = record(fig, "p19anim-$N-$tmax.mp4"; framerate=60) do io
         recordframe!(io)
         for n in 1:ntime
             w = chebfft(chebfft(v[]))

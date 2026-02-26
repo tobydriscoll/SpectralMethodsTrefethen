@@ -3,7 +3,7 @@ using CairoMakie, LaTeXStrings, Printf, FFTW
 p27anim - Solve KdV eq. u_t + u u_x + u_xxx = 0 on [-π, π] by
         FFT with integrating factor v = exp(-ik³t) * û.
 """
-function p27anim(N = 256, tmax = 0.006)
+function p27anim(N=256, tmax=0.006)
     @assert iseven(N) "Must choose an even value of N"
     # Set up grid and two-soliton initial data:
     x = (2π / N) * (-N/2:N/2-1)
@@ -29,7 +29,7 @@ function p27anim(N = 256, tmax = 0.006)
     u = Observable(u)
     fig = lines(x, u;
         axis=(; xlabel=L"x", xticks=MultiplesTicks(5, π, "π"), title))
-    anim = record(fig, "p27anim.mp4"; framerate=30) do io
+    anim = record(fig, "p27anim-$N-$(1000tmax).mp4"; framerate=30) do io
         recordframe!(io)
         for n in 1:ntime
             a = g .* rfft(real(irfft(û, N)) .^ 2)

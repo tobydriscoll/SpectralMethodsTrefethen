@@ -3,7 +3,7 @@ using CairoMakie, Printf, SpectralMethodsTrefethen
 p35anim - Allen-Cahn eq. as in p34, but with boundary condition
               imposed explicitly ("method (II)") w/animated solution
 """
-function p35anim(N = 20, ϵ = 0.01, tmax = 1 / 2ϵ)
+function p35anim(N=20, ϵ=0.01, tmax=1/2ϵ)
     # Differentiation matrix and initial data:
     D, x = cheb(N)
     D² = D^2     # use full-size matrix

@@ -13,7 +13,7 @@ function p6anim(N=128, tmax=8, Δt=π/2N)
     c = @. 0.2 + sin(x - 1)^2
 
     # Time-stepping by leap frog formula:
-    ntime = ceil(Int, tmax / Δt)
+    ntime = round(Int, tmax / Δt)
     Δt = tmax / ntime
     time = Observable(0.0)
     v = Observable(@. exp(-100 * (x - 1) .^ 2))

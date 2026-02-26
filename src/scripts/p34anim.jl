@@ -3,7 +3,7 @@ using CairoMakie, Printf, SpectralMethodsTrefethen
 p34anim - Allen–Cahn eq. u_t = ϵ u_xx + u - u³, u(-1) = -1, u(1) = 1\n
          (compare p6 and p32)
 """
-function p34anim(N = 20, ϵ = 0.01, tmax = 1 / ϵ)
+function p34anim(N=20, ϵ=0.01, tmax=1/ϵ)
     # Differentiation matrix and initial data:
     D, x = cheb(N)
     D² = D^2                 # use full-size matrix

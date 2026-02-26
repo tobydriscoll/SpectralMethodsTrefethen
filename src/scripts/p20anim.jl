@@ -42,7 +42,7 @@ function p20anim(N=24, tmax=1, Δt=6/N^2)
     ax = Axis(fig[1, 1]; xlabel=L"x", ylabel=L"y", aspect=DataAspect(),
                 limits = (-1, 1, -1, 1), title)
     heatmap!(ax, xx, yy, VV; colorrange=(-0.75, 0.75), colormap=:redsblues)
-    anim = record(fig, "p20anim.mp4"; framerate=30) do io
+    anim = record(fig, "p20anim-$N-$tmax.mp4"; framerate=30) do io
         recordframe!(io)
         for n in 1:ntime
             Vxx = mapslices(fftderiv2, V[]; dims=[1])

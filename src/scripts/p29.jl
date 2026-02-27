@@ -1,12 +1,9 @@
 using CairoMakie, LaTeXStrings
 using ToeplitzMatrices, SpectralMethodsTrefethen
-"""
-p29 - solve Poisson equation on the unit disk
-         (compare p16 and p28)
-"""
-function p29(N = 31, M = 40)
-    # Laplacian in polar coordinates:
+"p29 - solve Poisson equation on the unit disk (compare p16 and p28)"
+function p29(N=31, M=40)
     @assert isodd(N) && iseven(M) "Must choose odd N and even M"
+    # Set up r and θ:
     N2, M2 = div(N - 1, 2), div(M, 2)
     Dr, r = cheb(N)
     D²r = Dr^2
@@ -27,14 +24,18 @@ function p29(N = 31, M = 40)
 
     # Right-hand side and solution for u:
     F = [-r^2 * sin(θ / 2)^4 + sin(6θ) * cos(θ / 2)^2 for θ in θ, r in r[2:N2+1]]
-    u = Δ \ vec(F)
+    v = Δ \ vec(F)
 
     # Reshape results onto 2D grid and plot them:
-    U = reshape(u, M, N2)
-    U = U[[end; 1:end], :]    # repeat the periodic value for plotting
-    U = [zeros(M+1) U]        # boundary values at r = 1
-    X = [r * cos(θ) for θ in [0; θ], r in r[1:N2+1]]
-    Y = [r * sin(θ) for θ in [0; θ], r in r[1:N2+1]]
-    return contourf(X, Y, U; levels=20, colormap=:viridis,
+    V = reshape(v, M, N2)
+    V = [zeros(M) V]        # boundary values at r = 1
+    V = [V V[(@. mod1(M2 + (1:M), M)), N2+1:-1:1]]    # extend to r ∈ [-1, 0)
+    rr, θθ = range(-1, 1, 71), range(0, π, 111)
+    U = interp2dgrid(V, fourinterp, chebinterp, θθ, rr)
+    X = [r * cos(θ) for θ in θθ, r in rr]
+    Y = [r * sin(θ) for θ in θθ, r in rr]
+    fig, ax, plt = contourf(X, Y, U; levels=20, colormap=:amp,
         axis=(; xlabel=L"x", ylabel=L"y", aspect=1))
+    Colorbar(fig[1, 2], plt)
+    return fig
 end

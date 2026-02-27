@@ -1,6 +1,6 @@
 """
     clencurt(N)
-Nodes and weights for Clenshaw-Curtis quadrature.
+Nodes and weights for Clenshaw–Curtis quadrature.
 """
 function clencurt(N)
     q = [i / N for i in 0:N]
@@ -19,6 +19,6 @@ function clencurt(N)
             @. v -= 2cospi(2k * q[2:N]) / (4k^2 - 1)
         end
     end
-    w[2:N] .= 2v / N
+    w[2:N] = 2v / N
     return x, w
 end

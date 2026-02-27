@@ -12,7 +12,7 @@ function p28(N=25, M=20; version=:a)
     E₁ = Dr[2:N2+1, 2:N2+1]
     E₂ = Dr[2:N2+1, N:-1:N2+2]
 
-    # t = theta coordinate, ranging from 0 to 2π (M must be even):
+    # θ coordinate, ranging from 0 to 2π (M must be even):
     dθ = 2π / M
     θ = dθ * (1:M)
     M2 = div(M, 2)
@@ -25,7 +25,7 @@ function p28(N=25, M=20; version=:a)
     J = [zeros(M2, M2) I; I zeros(M2, M2)]
     Δ = kron(D₁ + R * E₁, I(M)) + kron(D₂ + R * E₂, J) + kron(R^2, D²θ)
 
-    # Compute four eigenmodes:
+    # Compute eigenmodes:
     λ, W = eigen(-Δ, sortby=abs)
     λ = sqrt.(real(λ / λ[1]))
 

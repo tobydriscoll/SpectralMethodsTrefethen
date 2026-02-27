@@ -26,14 +26,14 @@ function p29(N=31, M=40)
     F = [-r^2 * sin(θ / 2)^4 + sin(6θ) * cos(θ / 2)^2 for θ in θ, r in r[2:N2+1]]
     v = Δ \ vec(F)
 
-    # Reshape results onto 2D grid and plot them:
+    # Reshape results, extend to r < 0, and interpolate for the plot:
     V = reshape(v, M, N2)
-    V = [zeros(M) V]        # boundary values at r = 1
+    V = [zeros(M) V]                               # boundary values at r = 1
     V = [V V[(@. mod1(M2 + (1:M), M)), N2+1:-1:1]]    # extend to r ∈ [-1, 0)
-    rr, θθ = range(-1, 1, 71), range(0, π, 111)
-    U = interp2dgrid(V, fourinterp, chebinterp, θθ, rr)
-    X = [r * cos(θ) for θ in θθ, r in rr]
-    Y = [r * sin(θ) for θ in θθ, r in rr]
+    r, θ = range(-1, 1, 71), range(0, π, 111)
+    U = interp2dgrid(V, fourinterp, chebinterp, θ, r)
+    X = [r * cos(θ) for θ in θ, r in r]
+    Y = [r * sin(θ) for θ in θ, r in r]
     fig, ax, plt = contourf(X, Y, U; levels=20, colormap=:amp,
         axis=(; xlabel=L"x", ylabel=L"y", aspect=1))
     Colorbar(fig[1, 2], plt)

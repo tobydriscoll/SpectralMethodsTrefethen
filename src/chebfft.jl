@@ -13,8 +13,8 @@ function chebfft(v)
     w = similar(v)
     if N > 1
         ξ = 1:N-1
-        s = @. -sqrt(1 - x[2:N]^2)    # chain rule denominator
-        w[2:N] = DST(-ξ .* v̂[2:N]) ./ (2N * s)
+        q = DST(-ξ .* v̂[2:N])
+        w[2:N] = @. -q / (2N * sqrt(1 - x[2:N]^2))
     end
     w[1] = N/2 * v̂[N+1] + sum(n^2 * v̂[n+1] for n in 0:N-1) / N
     w[N+1] = (-1)^(N+1) * N/2 * v̂[N+1] +

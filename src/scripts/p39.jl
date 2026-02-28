@@ -1,7 +1,7 @@
 using CairoMakie, Printf
 using LinearAlgebra, SpectralMethodsTrefethen, Polynomials
 "p39 - eigenmodes of biharmonic on a square with clamped BCs (compare p38)"
-function p39(N = 17)
+function p39(N=17)
     # Construct spectral approximation to biharmonic operator:
     D, x = cheb(N)
     y = x
@@ -13,8 +13,8 @@ function p39(N = 17)
     Δ² = kron(I(N-1), D⁴) + kron(D⁴, I(N-1)) + 2kron(D², I(N-1)) * kron(I(N-1), D²)
 
     # Find and plot 25 eigenmodes:
-    λ, V = eigen(Δ²)
-    λ, V = real(λ[1:25]), real(V[:, 1:25])
+    λ, W = eigen(Δ²)
+    λ, W = real(λ[1:25]), real(W[:, 1:25])
     λ = sqrt.(λ / λ[1])
     xx = yy = -1:0.01:1
     square = [1 + 1im, -1 + 1im, -1 - 1im, 1 - 1im, 1 + 1im]
@@ -22,12 +22,12 @@ function p39(N = 17)
     modes = reshape(1:25, 5, 5)'
     for (i, mode) in pairs(modes)
         str = @sprintf("%0.6g", λ[mode])
-        U = zeros(N+1, N+1)
-        U[2:N, 2:N] = reshape(V[:, mode], N-1, N-1)
-        UU = interp2d(U, chebinterp, chebinterp, xx, yy)
+        V = zeros(N+1, N+1)
+        V[2:N, 2:N] = reshape(W[:, mode], N-1, N-1)
+        U = interp2dgrid(V, chebinterp, chebinterp, xx, yy)
         ax = Axis(fig[i[1], i[2]]; title=str, titlefont=:regular, aspect=DataAspect())
-        contour!(ax, xx, yy, UU; levels=[0], color=:black, linewidth=1)
-        lines!(ax, reim(square)...; linewidth=1, color=:black)
+        contour!(ax, xx, yy, U; levels=[0], color=:darkblue, linewidth=1)
+        lines!(ax, reim(square)...; linewidth=2, color=:black)
         hidedecorations!(ax)
         hidespines!(ax)
     end

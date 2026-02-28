@@ -3,7 +3,7 @@ using LinearAlgebra, SpectralMethodsTrefethen
 """
 # p23 - eigenvalues of perturbed Laplacian on [-1,1] x [-1,1] (compare p16)
 """
-function p23(N = 16; perturb=false)
+function p23(N=16; perturb=false)
     # Set up tensor product Laplacian and compute 4 eigenmodes:
     D, x = cheb(N)
     y = x

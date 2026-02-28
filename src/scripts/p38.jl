@@ -1,9 +1,7 @@
 using CairoMakie, Printf
 using LinearAlgebra, SpectralMethodsTrefethen, Polynomials
-"""
-p38 - solve u⁽⁴⁾ = exp(x), u(-1) = u(1) = u′(-1) = u′(1) = 0 (compare p13)
-"""
-function p38(N = 15)
+"p38 - solve u⁽⁴⁾ = exp(x), u(-1) = u(1) = u′(-1) = u′(1) = 0 (compare p13)"
+function p38(N=15)
     # Construct discrete biharmonic operator:
     D, x = cheb(N)
     s = [1 / (1 - x^2) for x in x[2:N]]

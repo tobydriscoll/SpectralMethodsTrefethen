@@ -1,13 +1,13 @@
 using CairoMakie, Printf, LaTeXStrings
 using SpectralMethodsTrefethen, LinearAlgebra, ToeplitzMatrices
 "p37 - 2D \"wave tank\" with Neumann BCs for |y| = 1"
-function p37(Nx = 50, Ny = 15)
+function p37anim(Nx=50, Ny=15, tmax=4)
     # x variable in [-A, A], Fourier:
     A = 3
-    dθ = 2π / Nx
-    θ = dθ * (1:Nx)
-    c0 = -π^2 / 3dθ^2 - 1 / 6
-    col = [0.5 * (-1)^(k + 1) / sin(k * dθ / 2)^2 for k in 1:Nx-1]
+    Δθ = 2π / Nx
+    θ = Δθ * (1:Nx)
+    c0 = -π^2 / 3Δθ^2 - 1 / 6
+    col = [0.5 * (-1)^(k + 1) / sin(k * Δθ / 2)^2 for k in 1:Nx-1]
     D²θ = Toeplitz([c0; col], [c0; col])
     x = θ -> A * θ / π - A
     D²x = (π / A)^2 * D²θ
@@ -15,7 +15,8 @@ function p37(Nx = 50, Ny = 15)
     # y variable in [-1, 1], Chebyshev:
     Dy, y = cheb(Ny)
     D²y = Dy^2
-    BC = -Dy[[1, Ny+1], [1, Ny+1]] \ Dy[[1, Ny+1], 2:Ny]
+    idxb, idxi = [1, Ny+1], 2:Ny
+    BC = -Dy[idxb, idxb] \ Dy[idxb, idxi]
 
     # Initial data:
     V = [exp(-8 * ((x + 1.5)^2 + y^2)) for x in x.(θ), y in y]
@@ -23,23 +24,22 @@ function p37(Nx = 50, Ny = 15)
     Vold = [exp(-8 * ((x + Δt + 1.5)^2 + y^2)) for x in x.(θ), y in y]
 
     # Time-stepping by leap frog formula:
-    tmax = 4
     ntime = ceil(Int, tmax / Δt)
     Δt = tmax / ntime
     time = Observable(0.0)
     V = Observable(V)
     θθ = range(0, 2π, 111)
     yy = range(-1, 1, 51)
-    VV = @lift interp2d($V, fourinterp, chebinterp, θθ, yy)
+    U = @lift interp2dgrid($V, fourinterp, chebinterp, θθ, yy)
     title = @lift latexstring(@sprintf("t = %0.2f", $time))
     fig = Figure()
     ax = Axis(fig[1, 1]; title, aspect=DataAspect(), xlabel=L"x", ylabel=L"y")
-    heatmap!(ax, x.(θθ), yy, VV; colormap=:redsblues, colorrange=(-0.75, 0.75), interpolate=true)
+    heatmap!(ax, x.(θθ), yy, U; colormap=:redsblues, colorrange=(-0.75, 0.75), interpolate=true)
     anim = record(fig, "p37anim.mp4"; framerate=60) do io
         recordframe!(io)
         for i in 1:ntime
             Vnew = 2V[] - Vold + Δt^2 * (D²x * V[] + V[] * D²y')
-            Vnew[:, [1, Ny+1]] .= Vnew[:, 2:Ny] * BC'       # Neumann BCs for |y|=1
+            Vnew[:, idxb] .= Vnew[:, idxi] * BC'       # Neumann BCs for |y|=1
             time[] = i * Δt
             Vold, V[] = V[], Vnew
             recordframe!(io)

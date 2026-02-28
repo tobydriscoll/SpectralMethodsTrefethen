@@ -1,6 +1,6 @@
 using CairoMakie, Printf, SpectralMethodsTrefethen
 "p33 - solve linear BVP u_xx = exp(4x), u′(-1) = u(1) = 0"
-function p33(N = 16)
+function p33(N=16)
     D, x = cheb(N)
     A = D^2
     A[N+1, :] = D[N+1, :]            # Neumann condition at x = -1

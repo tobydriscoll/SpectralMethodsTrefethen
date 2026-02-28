@@ -30,7 +30,7 @@ function p34anim(N=20, ϵ=0.01, tmax=1/ϵ)
             vnew += Δt * (ϵ * D² * (vnew - x) + vnew - vnew .^ 3)    # Euler
             v[] = vnew
             time[] = n * Δt
-            iszero(mod(n, plotgap)) &&recordframe!(io)
+            iszero(mod(n, plotgap)) && recordframe!(io)
         end
     end
     return anim

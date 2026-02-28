@@ -3,7 +3,7 @@ using CairoMakie, Printf, SpectralMethodsTrefethen
 p34 - Allen–Cahn eq. u_t = ϵ u_xx + u - u³, u(-1) = -1, u(1) = 1\n
          (compare p6 and p32)
 """
-function p34(N = 20, ϵ = 0.01, tmax = 1 / ϵ)
+function p34(N=20, ϵ=0.01, tmax=1/ϵ)
     # Differentiation matrix and initial data:
     D, x = cheb(N)
     D² = D^2      # use full-size matrix
@@ -12,25 +12,26 @@ function p34(N = 20, ϵ = 0.01, tmax = 1 / ϵ)
     v = @. 0.53x + 0.47sinpi(-1.5x)
 
     # Solve PDE by Euler formula and plot results:
-    tplot = 2
+    tplot = 1
     nplots = round(Int, tmax / tplot)
     plotgap = round(Int, tplot / Δt)
     Δt = tplot / plotgap
     tplots = range(0, tmax, nplots+1)
     xx = -1:0.025:1
-    vv = chebinterp(v).(xx)
-    data = [vv zeros(length(vv), nplots)]
+    u = chebinterp(v).(xx)
+    U = [u zeros(length(u), nplots)]
     for i in 1:nplots
         for n in 1:plotgap
             t += Δt
             v += Δt * (ϵ * D² * (v - x) + v - v .^ 3)    # Euler
         end
-        data[:, i+1] = chebinterp(v).(xx)
+        U[:, i+1] = chebinterp(v).(xx)
     end
     fig = Figure()
     ax = Axis3(fig[1, 1]; xlabel=L"x", ylabel=L"t", zlabel=L"u(x,t)",
         limits=(nothing, nothing, (-1.05, 1.05)) )
-    surface!(ax, xx, tplots, data;
+    surface!(ax, xx, tplots, U;
         colormap=:redsblues, colorrange=(-1, 1))
+    set_ambient_light!(ax, RGBf(0.7, 0.7, 0.7))
     return fig
 end

@@ -28,6 +28,6 @@ function p6(N=128, tmax=8, Δt=π/2N)
     end
     # Plot results:
     return heatmap(x, t[1:plotgap:end], data[:, 1:plotgap:end];
-        colormap=:viridis,
+        colormap=:amp,
         axis=(xlabel=L"x", xticks=MultiplesTicks(5, π, "π"), ylabel=L"t"))
 end

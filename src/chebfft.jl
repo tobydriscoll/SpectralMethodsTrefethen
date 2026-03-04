@@ -8,7 +8,7 @@ Differentiate values given at Chebyshev points via the FFT.
 function chebfft(v)
     N = length(v) - 1
     (N == 0) && return zero(v)
-    x = [cospi(k / N) for k in 0:N]
+    x = [sinpi(k / N) for k in N:-2:-N]
     v̂ = DCT(v)
     w = similar(v)
     if N > 1

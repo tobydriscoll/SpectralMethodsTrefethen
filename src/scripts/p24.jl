@@ -1,6 +1,6 @@
 using  CairoMakie, LinearAlgebra, SpectralMethodsTrefethen
 "p24 - pseudospectra of Davies's complex harmonic oscillator"
-function p24(N = 70, L = 6)
+function p24(N=70, L=6)
     # Eigenvalues:
     D, x = cheb(N)
     x, D = L * x, D / L            # rescale to [-L,L]
@@ -15,10 +15,8 @@ function p24(N = 70, L = 6)
     x, y = 0:0.5:50, 0:0.5:40
     minsigma(z) = minimum(svdvals(z * I - A))
     σ_min = [minsigma(complex(x, y)) for x in x, y in y]
-    cplt = contourf!(x, y, log10.(σ_min); levels=-5:0.5:-0.5)
-    scatter!(ax, reim(λ)...; color=:black, markersize=6)
+    cplt = contourf!(x, y, log10.(σ_min); colormap=:Blues, levels=-5:0.5:-0.5)
+    scatter!(ax, reim(λ)...; color=:orange, markersize=6)
     Colorbar(fig[1, 2], cplt)
     return fig
 end
-
-p24()

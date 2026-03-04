@@ -52,5 +52,4 @@ function p25()
     end
     ax[2, 2].title = "Runge–Kutta"
     return fig
-
 end

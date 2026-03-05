@@ -1,4 +1,4 @@
-using CairoMakie, LaTeXStrings, FFTW
+using CairoMakie, LaTeXStrings, FFTW, SpectralMethodsTrefethen
 "p6anim - variable coefficient wave equation"
 function p6anim(N=128, tmax=8, Δt=π/2N)
     h = 2π / N
@@ -19,7 +19,8 @@ function p6anim(N=128, tmax=8, Δt=π/2N)
     v = Observable(@. exp(-100 * (x - 1) .^ 2))
     title = @lift latexstring(@sprintf("\$t = %0.2f\$", $time))
     vold = @. exp(-100 * (x - 0.2Δt - 1)^2)
-    fig = lines(x, v;
+    u = @lift fourinterp($v)
+    fig = lines(0..2π, u;
         axis=(; xlabel=L"x", xticks=MultiplesTicks(5, π, "π"), title))
     anim = record(fig, "p6anim-$N-$tmax.mp4"; framerate=60) do io
         recordframe!(io)

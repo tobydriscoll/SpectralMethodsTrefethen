@@ -1,3 +1,5 @@
+using CairoMakie, LaTeXStrings, FFTW
+"p6 - variable coefficient wave equation"
 function p6(N=128, tmax=8, Δt=π/2N)
     # Grid, variable coefficient, and initial data:
     h = 2π / N

@@ -14,7 +14,8 @@ function p19anim(N=80, tmax=4, Δt=8/N^2)
     title = @lift latexstring(@sprintf("\$t = %0.2f\$", $time))
     v = Observable(@. exp(-200x^2))
     vold = @. exp(-200 * (x - Δt)^2)
-    fig = lines(x, v; axis=(; xlabel=L"x", title, limits=(-1, 1, -1, 1)))
+    u = @lift chebinterp($v)
+    fig = lines(-1..1, u; axis=(; xlabel=L"x", title, limits=(-1, 1, -1, 1)))
     anim = record(fig, "p19anim-$N-$tmax.mp4"; framerate=60) do io
         recordframe!(io)
         for n in 1:ntime

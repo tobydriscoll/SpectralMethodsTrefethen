@@ -5,7 +5,8 @@ same length as `x`.
 """
 function baryweights(x)
     n = length(x)
-    x̃ = 4x / (x[end] - x[1])    # rescale to avoid overflow/underflow
+    a, b = extrema(x)
+    x̃ = 4x / (b - a)    # rescale to avoid overflow/underflow
     return [1 / prod(2(x̃[j] - x̃[k]) for k in 1:n if k !== j) for j in 1:n]
 end
 

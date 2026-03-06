@@ -11,25 +11,24 @@ function baryweights(x)
 end
 
 """
-	baryinterp(x, u)
-	baryinterp(x, u, w)
+	baryinterp(x, v)
+	baryinterp(x, v, w)
 Create a polynomial interpolant by the barycentric formula for the function values in
-vector `u` at the node locations in vector `x`. If given, `w` is a vector of the
-barycentric weights; otherwise it is computed from the nodes. The return value is
+vector `v` at the node locations in vector `x`. If given, `w` is a vector of the
+barycentric weights; otherwise, it is computed from the nodes. The return value is
 a callable function of the interpolation variable.
 """
-function baryinterp(x, u, w=baryweights(x))
-    n = length(u)
-    t = zeros(n)
-    return function(s)
-        hit = nothing
-        for i in 1:n
-            t[i] = w[i] / (s - x[i])
-            if isinf(t[i])
-                hit = i
-                break
+function baryinterp(x, v, w=baryweights(x))
+    return function(ξ)
+        numer = denom = zero(eltype(v))
+        for i in eachindex(x)
+            term = w[i] / (ξ - x[i])
+            if isinf(term) || isnan(term)    # did we just divide by zero?
+                return v[i]                  # return value at node
             end
+            denom += term
+            numer = muladd(term, v[i], numer)
         end
-        isnothing(hit) ? dot(t, u) / sum(t) : u[hit]
+        return numer / denom
     end
 end

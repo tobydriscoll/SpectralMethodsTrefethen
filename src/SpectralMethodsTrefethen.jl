@@ -10,7 +10,7 @@ include("clencurt.jl")
 include("gauss.jl")
 
 # Interpolation functions for Chebyshev and Fourier discretizations.
-export baryinterp, chebinterp, fourinterp, interp2dgrid
+export baryweights, baryinterp, chebinterp, fourinterp, interp2dgrid
 include("baryinterp.jl")
 include("chebinterp.jl")
 include("fourinterp.jl")

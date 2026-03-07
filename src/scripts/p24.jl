@@ -16,7 +16,7 @@ function p24(N=70, L=6)
     minsigma(z) = minimum(svdvals(z * I - A))
     σ_min = [minsigma(complex(x, y)) for x in x, y in y]
     cplt = contourf!(x, y, log10.(σ_min); colormap=:Blues, levels=-5:0.5:-0.5)
-    scatter!(ax, reim(λ)...; color=:orange, markersize=6)
+    scatter!(ax, reim(λ)...; color=:orange, markersize=8)
     Colorbar(fig[1, 2], cplt)
     return fig
 end

@@ -21,7 +21,7 @@ function p6anim(N=128, tmax=8, Δt=π/2N)
     vold = @. exp(-100 * (x - 0.2Δt - 1)^2)
     u = @lift fourinterp($v)
     fig = lines(0..2π, u;
-        axis=(; xlabel=L"x", xticks=MultiplesTicks(5, π, "π"), title))
+        axis=(xlabel=L"x", xticks=MultiplesTicks(5, π, "π"), title))
     anim = record(fig, "p6anim-$N-$tmax.mp4"; framerate=60) do io
         recordframe!(io)
         for n in 1:ntime

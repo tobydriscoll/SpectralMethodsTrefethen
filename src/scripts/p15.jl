@@ -6,7 +6,7 @@ function p15(N = 36)
     D² = (D^2)[2:N, 2:N]
     λ, V = eigen(-D²)
     fig = Figure(size=(600, 600))
-    ax = [Axis(fig[i, 1], limits=(-1, 1, -0.64, 0.64)) for i in 1:6]
+    ax = [Axis(fig[i, 1], limits=(-1.1, 1.1, -0.64, 0.64)) for i in 1:6]
     for (mode, ax) in zip(5:5:30, ax)        # plot 6 eigenvectors
         v = [0; V[:, mode]; 0]
         scatter!(ax, x, v)

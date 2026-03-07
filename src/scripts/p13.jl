@@ -10,7 +10,7 @@ function p13(N = 16)
     xx = range(-1, 1, 801)
     u = chebinterp(v)                    # interpolate grid data
     exact(x) = @. (exp(4x) - sinh(4) * x - cosh(4)) / 16;
-    maxerr = maximum(abs, u.(xx) - exact.(xx))
+    maxerr = maximum(abs(u(x) - exact(x)) for x in xx)
     title = @sprintf("max err = %.3g", maxerr)
     fig = lines(-1..1, u; axis=(; title, xlabel=L"x", ylabel=L"u(x)"))
     scatter!(x, v)

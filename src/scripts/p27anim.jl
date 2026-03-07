@@ -8,7 +8,7 @@ function p27anim(N=256, tmax=0.006, Δt=0.4/N^2)
     # Set up grid and two-soliton initial data:
     x = (2π / N) * (-N/2:N/2-1)
     soliton(x, a) = 3a^2 * sech(0.5 * a * x)^2
-    u = @. soliton(x + 2, 25) + soliton(x + 1, 16)
+    v = @. soliton(x + 2, 25) + soliton(x + 1, 16)
 
     # Set up time stepping:
     tplot = tmax / 150
@@ -24,20 +24,21 @@ function p27anim(N=256, tmax=0.006, Δt=0.4/N^2)
     E² = E .^ 2
     time = Observable(0.0)
     title = @lift @sprintf("t = %0.2e", $time)
-    û = rfft(u)
-    u = Observable(u)
-    fig = lines(x, u;
+    v̂ = rfft(v)
+    v = Observable(v)
+    u = @lift fourinterp($v)
+    fig = lines(-π..π, u;
         axis=(; xlabel=L"x", xticks=MultiplesTicks(5, π, "π"), title))
     anim = record(fig, "p27anim-$N-$(1000tmax).mp4"; framerate=30) do io
         recordframe!(io)
         for n in 1:ntime
-            a = g .* rfft(irfft(û, N) .^ 2)
-            b = g .* rfft(irfft(E .* (û + a / 2), N) .^ 2)    # 4th-order...
-            c = g .* rfft(irfft(E .* û + b / 2, N) .^ 2)      # ...Runge–Kutta
-            d = g .* rfft(irfft(E² .* û + E .* c, N) .^ 2)
-            û = @. E² * û + (E² * a + 2 * E * (b + c) + d) / 6
+            a = g .* rfft(irfft(v̂, N) .^ 2)
+            b = g .* rfft(irfft(E .* (v̂ + a / 2), N) .^ 2)    # 4th-order...
+            c = g .* rfft(irfft(E .* v̂ + b / 2, N) .^ 2)      # ...Runge–Kutta
+            d = g .* rfft(irfft(E² .* v̂ + E .* c, N) .^ 2)
+            v̂ = @. E² * v̂ + (E² * a + 2 * E * (b + c) + d) / 6
             if iszero(rem(n, plotgap))
-                u[] = irfft(û, N)
+                v[] = irfft(v̂, N)
                 time[] = n * Δt
                 recordframe!(io)
             end

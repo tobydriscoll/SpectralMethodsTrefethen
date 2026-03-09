@@ -1,12 +1,8 @@
-using CairoMakie, Printf, ToeplitzMatrices
+using CairoMakie, Printf, SpectralMethodsTrefethen
 "p4 - periodic spectral differentiation"
-function p4()
+function p4(N=24)
     # Set up grid and differentiation matrix:
-    N = 24
-    h = 2π / N
-    x = h * (1:N)
-    col = [0.5 * (-1)^j * cot(j * h / 2) for j in 1:N-1]
-    D = Toeplitz([0; col], [0; reverse(col)])
+    x, D, _ = fourier(N)
 
     fig = Figure()
     xticks = MultiplesTicks(5, π, "π")

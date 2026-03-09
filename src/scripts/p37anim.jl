@@ -1,14 +1,10 @@
 using CairoMakie, Printf, LaTeXStrings
-using SpectralMethodsTrefethen, LinearAlgebra, ToeplitzMatrices
+using SpectralMethodsTrefethen, LinearAlgebra
 "p37 - 2D \"wave tank\" with Neumann BCs for |y| = 1"
 function p37anim(Nx=50, Ny=15, tmax=4)
     # x variable in [-A, A], Fourier:
     A = 3
-    Δθ = 2π / Nx
-    θ = Δθ * (1:Nx)
-    c0 = -π^2 / 3Δθ^2 - 1 / 6
-    col = [0.5 * (-1)^(k + 1) / sin(k * Δθ / 2)^2 for k in 1:Nx-1]
-    D²θ = Toeplitz([c0; col], [c0; col])
+    θ, _, D²θ = fourier(Nx)
     x = θ -> A * θ / π - A
     D²x = (π / A)^2 * D²θ
 

@@ -13,12 +13,8 @@ function p28(N=25, M=20; version=:a)
     E₂ = Dr[2:N2+1, N:-1:N2+2]
 
     # θ coordinate, ranging from 0 to 2π (M must be even):
-    dθ = 2π / M
-    θ = dθ * (1:M)
+    θ, _, D²θ = fourier(M)
     M2 = div(M, 2)
-    c0 = -π^2 / 3dθ^2 - 1 / 6
-    col = [0.5 * (-1)^(k + 1) / sin(k * dθ / 2)^2 for k in 1:M-1]
-    D²θ = Toeplitz([c0; col], [c0; col])
 
     # Laplacian in polar coordinates:
     R = Diagonal(1 ./ r[2:N2+1])

@@ -3,7 +3,8 @@ module SpectralMethodsTrefethen
 using LinearAlgebra, FFTW, CairoMakie, ForwardDiff, LaTeXStrings, Polynomials, Printf, SpecialFunctions, ToeplitzMatrices
 
 # Analogs for named functions in the book.
-export cheb, chebfft, clencurt, gauss
+export fourier, cheb, chebfft, clencurt, gauss
+include("fourier.jl")
 include("cheb.jl")
 include("chebfft.jl")
 include("clencurt.jl")

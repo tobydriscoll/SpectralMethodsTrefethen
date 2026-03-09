@@ -1,14 +1,10 @@
-using CairoMakie, LaTeXStrings, LinearAlgebra, ToeplitzMatrices
+using CairoMakie, LaTeXStrings, LinearAlgebra, SpectralMethodsTrefethen
 """
 p21 - eigenvalues of Mathieu operator -u_xx + 2 q cos(2x) u\n
          (compare p8 and p. 724 of Abramowitz & Stegun)
 """
-function p21(N = 42)
-    h = 2π / N
-    x = h * (1:N)
-    c0 = -π^2 / 3h^2 - 1 / 6
-    col = [c0; [ (-1)^(j+1) / 2sin(h * j / 2)^2 for j in 1:N-1 ]]
-    D² = Toeplitz(col, col)    # second-order differentiation matrix
+function p21(N=42)
+    x, _, D² = fourier(N)    # second-order differentiation matrix
     q = 0:.2:15
     data = zeros(11, length(q))
     for (i, q) in enumerate(q)

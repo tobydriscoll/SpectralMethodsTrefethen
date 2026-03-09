@@ -1,5 +1,5 @@
 using CairoMakie, LaTeXStrings
-using ToeplitzMatrices, SpectralMethodsTrefethen
+using SpectralMethodsTrefethen
 "p29 - solve Poisson equation on the unit disk (compare p16 and p28)"
 function p29(N=31, M=40)
     @assert isodd(N) && iseven(M) "Must choose odd N and even M"
@@ -11,11 +11,7 @@ function p29(N=31, M=40)
     D₂ = D²r[2:N2+1, N:-1:N2+2]
     E₁ = Dr[2:N2+1, 2:N2+1]
     E₂ = Dr[2:N2+1, N:-1:N2+2]
-    dθ = 2π / M
-    θ = dθ * (1:M)
-    c0 = -π^2 / 3dθ^2 - 1 / 6
-    col = [0.5 * (-1)^(k + 1) / sin(k * dθ / 2)^2 for k in 1:M-1]
-    D²θ = Toeplitz([c0; col], [c0; col])
+    θ, _, D²θ = fourier(M)
 
     # Laplacian in polar coordinates:
     R = Diagonal(1 ./ r[2:N2+1])

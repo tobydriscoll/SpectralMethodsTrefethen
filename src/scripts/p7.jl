@@ -1,5 +1,5 @@
 using CairoMakie, LaTeXStrings
-using ToeplitzMatrices, ForwardDiff
+using ForwardDiff, SpectralMethodsTrefethen
 "p7 - accuracy of periodic spectral differentiation"
 function p7(Nmax = 50)
     # Compute derivatives for various values of N:
@@ -8,10 +8,7 @@ function p7(Nmax = 50)
             x -> 1 / (1 + sin(x / 2)^2)   x -> sin(10x)]
     E = zeros(2, 2, length(N))
     for (k, N) in enumerate(N)
-        h = 2π / N
-        x = h * (1:N)
-        col = [0.5 * (-1)^j * cot(j * h / 2) for j in 1:N-1]
-        D = Toeplitz([0; col], [0; reverse(col)])
+        x, D, _ = fourier(N)
         for (i, f) in pairs(funs)
             v = f.(x)
             vprime = ForwardDiff.derivative.(f, x)

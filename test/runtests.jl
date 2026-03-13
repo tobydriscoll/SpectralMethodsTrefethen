@@ -1,4 +1,4 @@
-using Test, LinearAlgebra, SpectralMethodsTrefethen
+using Test, LinearAlgebra, SpectralMethodsTrefethen, Makie
 
 @testset "fourier" begin
     for N in [26, 32]
@@ -99,4 +99,16 @@ end
     V = [f(x, y) for x in x, y in y]
     ξ = η = -1:0.025:1
     @test interp2dgrid(V, chebinterp, chebinterp, ξ, η) ≈ [f(x, y) for x in ξ, y in η]
+end
+
+@testset "Scripts" begin
+    for script in [:p1, :p2, :p3, :p4, :p5, :p6, :p6anim, :p7, :p8, :p9, :p10,
+        :p11, :p12, :p13, :p14, :p15, :p16, :p17, :p18, :p19, :p19anim, :p20anim,
+        :p21, :p22, :p23, :p24, :p25, :p26, :p27, :p27anim, :p28, :p28a, :p28b, :p29, :p30,
+        :p31, :p32, :p33, :p34, :p34anim, :p35, :p35anim, :p36, :p37anim, :p38, :p39, :p40, :p40anim]
+        out = eval(script)()
+        if out isa Figure || out isa Makie.FigureAxisPlot
+            save(String(script) * ".pdf", out)
+        end
+    end
 end

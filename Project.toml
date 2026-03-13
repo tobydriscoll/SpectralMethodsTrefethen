@@ -21,6 +21,7 @@ FFTW = "1"
 ForwardDiff = "1"
 LaTeXStrings = "1"
 LinearAlgebra = "1"
+Makie = "0.24.8"
 OffsetArrays = "1.17.0"
 Polynomials = "4"
 Printf = "1"
@@ -29,7 +30,8 @@ ToeplitzMatrices = "0.8"
 
 [extras]
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+Makie = "ee78f7c6-11fb-53f2-987a-cfe4a2b5a57a"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [targets]
-test = ["Test", "LinearAlgebra"]
+test = ["Test", "LinearAlgebra", "Makie"]

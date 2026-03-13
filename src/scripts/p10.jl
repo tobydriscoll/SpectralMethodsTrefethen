@@ -1,6 +1,6 @@
 using CairoMakie, Polynomials
 "p10 - polynomials and corresponding equipotential curves"
-function p10(N = 16)
+function p10(N=16)
     fig = Figure()
     cases = (
         ("equispaced points", [-1 + 2n / N for n in 0:N]),

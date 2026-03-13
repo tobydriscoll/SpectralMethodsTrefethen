@@ -1,7 +1,7 @@
 using CairoMakie, Printf
 using SpectralMethodsTrefethen, LinearAlgebra
 "p15 - solve eigenvalue BVP u_xx = λ u, u(-1) = u(1) = 0"
-function p15(N = 36)
+function p15(N=36)
     D, x = cheb(N)
     D² = (D^2)[2:N, 2:N]
     λ, V = eigen(-D²)

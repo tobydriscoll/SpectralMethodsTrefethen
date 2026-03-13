@@ -1,6 +1,6 @@
 using CairoMakie, Printf, LinearAlgebra, SpectralMethodsTrefethen
 "p13 - solve linear BVP u_xx = exp(4x), u(-1) = u(1) = 0"
-function p13(N = 16)
+function p13(N=16)
     D, x = cheb(N)
     D² = D^2
     D² = D²[2:N, 2:N]                    # boundary conditions

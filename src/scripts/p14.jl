@@ -2,7 +2,7 @@ using CairoMakie, LaTeXStrings, SpectralMethodsTrefethen
 """
 p14 - solve nonlinear BVP u_xx = exp(u), u(-1) = u(1) = 0 (compare p13)
 """
-function p14(N = 16)
+function p14(N=16)
     D, x = cheb(N)
     D² = (D^2)[2:N, 2:N]
     v = zeros(N-1)

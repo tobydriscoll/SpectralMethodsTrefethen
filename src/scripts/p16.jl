@@ -1,7 +1,7 @@
 using CairoMakie, Printf, LaTeXStrings
 using LinearAlgebra, SpectralMethodsTrefethen
 "p16 - Poisson eq. on [-1,1] x [-1,1] with u = 0 on boundary"
-function p16(N = 24)
+function p16(N=24)
     # Set up grids and tensor product Laplacian and solve for u:
     D, x = cheb(N)
     y = x

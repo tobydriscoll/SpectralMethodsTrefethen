@@ -1,7 +1,7 @@
 using CairoMakie, LaTeXStrings
 using ForwardDiff, SpectralMethodsTrefethen
 "p7 - accuracy of periodic spectral differentiation"
-function p7(Nmax = 50)
+function p7(Nmax=50)
     # Compute derivatives for various values of N:
     N = 6:2:Nmax
     funs = [x -> abs(sin(x))^3            x -> exp(-sin(x / 2)^(-2));

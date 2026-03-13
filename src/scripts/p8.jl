@@ -1,6 +1,6 @@
 using LinearAlgebra, ToeplitzMatrices
 "p8 - eigenvalues of harmonic oscillator -u′′ + x² u on 𝐑"
-function p8(L = 8)                         # domain is [-L, L], periodic
+function p8(L=8)                         # domain is [-L, L], periodic
     for N in 6:6:36
         h = 2π / N
         x = h * (1:N)

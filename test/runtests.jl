@@ -106,9 +106,11 @@ end
         :p11, :p12, :p13, :p14, :p15, :p16, :p17, :p18, :p19, :p19anim, :p20anim,
         :p21, :p22, :p23, :p24, :p25, :p26, :p27, :p27anim, :p28, :p28a, :p28b, :p29, :p30,
         :p31, :p32, :p33, :p34, :p34anim, :p35, :p35anim, :p36, :p37anim, :p38, :p39, :p40, :p40anim]
-        out = eval(script)()
+        out = redirect_stdout(devnull) do
+            eval(script)()
+        end
         if out isa Figure || out isa Makie.FigureAxisPlot
-            save(String(script) * ".pdf", out)
+            save(String(script) * ".png", out)
         end
     end
 end

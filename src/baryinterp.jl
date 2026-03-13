@@ -20,7 +20,7 @@ a callable function of the interpolation variable.
 """
 function baryinterp(x, v, w=baryweights(x))
     return function(ξ)
-        numer = denom = zero(eltype(v))
+        numer = denom = 0.0
         for i in eachindex(x)
             term = w[i] / (ξ - x[i])
             if isinf(term) || isnan(term)    # did we just divide by zero?

@@ -2,3 +2,4 @@
 Manifest.toml
 *.mp4
 test/*.pdf
+test/*.png

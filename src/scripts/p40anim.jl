@@ -20,11 +20,12 @@ function p40anim(Re=5772)
     λ = @lift oseigs($N)
     Reλ = @lift real($λ)
     Imλ = @lift imag($λ)
-    str = @lift @sprintf("\$N = %d,\\; \\lambda_\\mathrm{max}\$ = %.11f", $N, maximum($Reλ))
-    title = @lift latexstring($str)
+    title = @lift latexstring(@sprintf("\$N = %d\$", $N))
     ax = Axis(fig[1, 1]; aspect=1, limits=(-0.8, 0.2, -1, 0), title)
     vlines!(ax, [0], color=:gray)
     scatter!(ax, Reλ, Imλ; color=Reλ, colormap=:Blues, colorrange=(-0.8, 0) )
+    maxre = @lift latexstring(@sprintf("\$\\lambda_\\mathrm{max} = %.11f\$", maximum($Reλ)))
+    text!(ax, -0.04, -0.1, text=maxre, align=(:right, :baseline))
     anim = record(fig, "p40anim.mp4", 20:4:100; framerate=2, loop=-1) do n
         N[] = n
     end

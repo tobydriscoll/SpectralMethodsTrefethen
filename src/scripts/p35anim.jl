@@ -25,11 +25,12 @@ function p35anim(N=20, ϵ=0.01, tmax=1/2ϵ)
     anim = record(fig, "p35anim.mp4"; framerate=15) do io
         recordframe!(io)
         for n in 1:ntime
+            time[] = n * Δt
             vnew = v[]
             vnew += Δt * (ϵ * D² * (vnew - x) + vnew - vnew .^ 3)    # Euler
-            vnew[1], vnew[end] = 1 + sin((n-1) * tplot / 5)^2, -1    # BC
+            vnew[1]   = 1 + sin(time[] / 5)^2    # BC at x=1
+            vnew[end] = -1                       # BC at x=-1
             v[] = vnew
-            time[] = n * Δt
             iszero(mod(n, plotgap)) && recordframe!(io)
         end
     end

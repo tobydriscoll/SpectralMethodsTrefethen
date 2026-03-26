@@ -17,7 +17,7 @@ function p39(N=17)
     λ, W = real(λ[1:25]), real(W[:, 1:25])
     λ = sqrt.(λ / λ[1])
     xx = yy = -1:0.01:1
-    square = [1 + 1im, -1 + 1im, -1 - 1im, 1 - 1im, 1 + 1im]
+    square = Point2.([[-1, -1], [1, -1], [1, 1], [-1, 1], [-1, -1]])
     fig = Figure(size=(640, 640))
     modes = reshape(1:25, 5, 5)'
     for (i, mode) in pairs(modes)
@@ -27,7 +27,7 @@ function p39(N=17)
         U = interp2dgrid(V, chebinterp, chebinterp, xx, yy)
         ax = Axis(fig[i[1], i[2]]; title=str, titlefont=:regular, aspect=DataAspect())
         contour!(ax, xx, yy, U; levels=[0], color=:darkblue, linewidth=1)
-        lines!(ax, reim(square)...; linewidth=2, color=:black)
+        lines!(ax, square; linewidth=2, color=:black)
         hidedecorations!(ax)
         hidespines!(ax)
     end

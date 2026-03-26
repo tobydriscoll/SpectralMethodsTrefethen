@@ -1,6 +1,6 @@
 using CairoMakie, SpectralMethodsTrefethen, SpecialFunctions
 "p31 - gamma function via complex integral, trapezoid rule"
-function p31(N = 70, c = -11, r = 16)
+function p31(N=70, c=-11, r=16)
     # points on circle of integration:
     t = [c + r * cispi(q) for q in 2 * (0.5:N-0.5) / N]
     # trapezoid integration:
